@@ -9,6 +9,7 @@
  * Return: 0 if works
  */
 int main(void)
+
 {
 	int i = 0, random, checksum;
 
