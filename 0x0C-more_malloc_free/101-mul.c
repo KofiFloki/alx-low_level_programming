@@ -3,71 +3,132 @@
 #include <stdio.h>
 
 /**
-* main - multiplies two positive numbers.
-* @argc: number of arguments
-* @argv: the values in each argc element
-*
-* Description: its like infinite add but with multiplication
-* Return: print the result. return 0 if success
+ * _memset - fills memory with a constant byte
+ *
+ * @s: input pointer that represents memory block
+ *     to fill
+ * @b: characters to fill/set
+ * @n: number of bytes to be filled
+ *
+ * Return: pointer to the filled memory area
 */
 
-# IF EITHER NUMBER ARE ZERO RETURN 0;
-##SHOULD CHECK IF BEGINNING LEADING NUMBER IS ZERO.
-
-
-int main(int argc, char **argv)
+char *_memset(char *s, char b, unsigned int n)
 {
-	int size1 = 0;
-	int size2 = 0;
-	int product_size = 0;
-	int product = 0;
-	int overflow = 0;
-	int index = 0;
-	int tab = 0;
+	unsigned int i = 0;
 
-	while (argv[1][size1])//strlength and checks if digit
+	while (i < n)
 	{
-		ISDIGIT\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\##################
-		size1++;
+		s[i] = b;
+		i++;
 	}
-	while (argv[2][size2])//strlength and checks if digit
-	{
-		ISITADIGIT########################################################
-		size2++;
-	}
-	product_size = size1 + size2 + 1;//calculate the range we need
-	product = malloc(sizeof(char) * product_size);//allocates space
-	if (!product)
-		return (98);
-	while (product_size >= 0)//initialize all to 0
-		product[product_size] = '0';
-	size1--;//because length is 1 more than index
-	size2--;
-	while (size2 >= 0)
-	{
-		index = tab;
-		for (j = size1; j >= 0; j--)
-		{
-			product = (argv[1][j]-'0') * (argv[2][size2]-'0');
-			product += product[index] -'0';
-			product += overflow;
-			overflow = product / 10;
-			product[index] = product % 10 + '0';
-			index++;
-		}
-		if (overflow)
-		{
-			product[index] = overflow;
-			index++;
-		}
-		overflow = 0;
-		size2--;
-		tab++;
-	}
-	product[index] ='\0';
-	reversestring\\\\\###########################################################
-	printf("%s\n", product);
-	free(product);
-	return (0);
+	return (s);
 }
 
+/**
+ * _calloc - function that allocates memory
+ *           for an array using memset
+ *
+ * @nmemb: size of array
+ * @size: size of each element
+ *
+ * Return: pointer to new allocated memory
+*/
+
+void *_calloc(unsigned int nmemb, unsigned int size)
+{
+	char *ptr;
+
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	_memset(ptr, 0, nmemb * size);
+
+	return (ptr);
+}
+
+
+/**
+ * multiply - initialize array with 0 byte
+ *
+ * @s1: string 1
+ * @s2: string 2
+ *
+ * Return: nothing
+*/
+
+void multiply(char *s1, char *s2)
+{
+	int i, l1, l2, total_l, f_digit, s_digit, res = 0, tmp;
+	char *ptr;
+	void *temp;
+
+	l1 = _length(s1);
+	l2 = _length(s2);
+	tmp = l2;
+	total_l = l1 + l2;
+	ptr = _calloc(sizeof(int), total_l);
+
+	/* store our pointer address to free later */
+	temp = ptr;
+
+	for (l1--; l1 >= 0; l1--)
+	{
+		f_digit = s1[l1] - '0';
+		res = 0;
+		l2 = tmp;
+		for (l2--; l2 >= 0; l2--)
+		{
+			s_digit = s2[l2] - '0';
+			res += ptr[l2 + l1 + 1] + (f_digit * s_digit);
+			ptr[l1 + l2 + 1] = res % 10;
+			res /= 10;
+		}
+		if (res)
+			ptr[l1 + l2 + 1] = res % 10;
+	}
+
+	while (*ptr == 0)
+	{
+		ptr++;
+		total_l--;
+	}
+
+	for (i = 0; i < total_l; i++)
+		printf("%i", ptr[i]);
+	printf("\n");
+	free(temp);
+}
+
+
+/**
+ * main - Entry point
+ *
+ * Description: a program that multiplies
+ *            two positive numbers
+ *
+ * @argc: number of arguments
+ * @argv: arguments array
+ *
+ * Return: 0 on success 98 on faliure
+*/
+
+int main(int argc, char *argv[])
+{
+	char *n1 = argv[1];
+	char *n2 = argv[2];
+
+	if (argc != 3 || check_number(n1) || check_number(n2))
+		error_exit();
+
+	if (*n1 == '0' || *n2 == '0')
+	{
+		_putchar('0');
+		_putchar('\n');
+	}
+	else
+		multiply(n1, n2);
+	return (0);
+}
