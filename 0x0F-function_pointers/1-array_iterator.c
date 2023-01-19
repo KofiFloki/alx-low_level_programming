@@ -1,52 +1,20 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include "function_pointers.h"
 
 /**
- * print_name_as_is - prints a name as is
- * @name: name of the person
- *
- * Return: Nothing.
+ * array_iterator - executes a function given as a parameter
+ * on each element of an array
+ * @array: array to iterate over
+ * @size: size of the array
+ * @action: pointer to function used
  */
-void print_name_as_is(char *name)
+void array_iterator(int *array, size_t size, void (*action)(int))
 {
-    printf("Hello, my name is %s\n", name);
-}
+	unsigned int i;
 
-/**
- * print_name_uppercase - print a name in uppercase
- * @name: name of the person
- *
- * Return: Nothing.
- */
-void print_name_uppercase(char *name)
-{
-    unsigned int i;
+	if (!array || !action)
+		return;
 
-    printf("Hello, my uppercase name is ");
-    i = 0;
-    while (name[i])
-    {
-        if (name[i] >= 'a' && name[i] <= 'z')
-        {
-            putchar(name[i] + 'A' - 'a');
-        }
-        else
-        {
-            putchar(name[i]);
-        }
-        i++;
-    }
-}
-
-/**
- * main - check the code
- *
- * Return: Always 0.
- */
-int main(void)
-{
-    print_name("Bob", print_name_as_is);
-    print_name("Bob Dylan", print_name_uppercase);
-    printf("\n");
-    return (0);
+	for (i = 0; i < size; i++)
+		action(array[i]);
 }
