@@ -1,49 +1,62 @@
 #include "lists.h"
+listint_t *create_new_node(int n);
 /**
- * insert_nodeint_at_index - inserts a new node at a given position
- * @head: double pointer to the head of the listint list
- * @idx: is the index of the list where the new node should be added
- * @n: is the data
- * Return: Null if it failed or the address of the new node
+ * insert_nodeint_at_index - Inserts a node at a given index
+ * @head: Pointer to the first element of the list
+ * @idx: Index to insert a node at
+ * @n: number to be inserted into the node
+ * Return: The address of the newly created node
  */
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
-	listint_t *headaux;
-	listint_t *newnode;
-	unsigned int size;
+	unsigned int i;
+	listint_t *tmp;
+	listint_t *tmp_old;
+	listint_t *new_node;
 
-	size = 0;
-	/* allocate memory for the newnode */
-	newnode = malloc(sizeof(listint_t));
-	/* task condition */
-	if (newnode == NULL)
+	tmp = *head;
+	if (head == NULL)
 		return (NULL);
-	/* n keeps being the data of the new node */
-	newnode->n = n;
-	/*  given the case, if index is cero then newnode is equal to head */
-	/* and return newnode in head of the list */
+	new_node = create_new_node(n);
+	if (new_node == NULL)
+		return (NULL);
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return (new_node);
+	}
+
 	if (idx == 0)
+		*head = new_node;
+	for (i = 0; i < idx - 1 && tmp != NULL && idx != 0; i++)
+		tmp = tmp->next;
+	if (tmp == NULL)
+		return (NULL);
+	if (idx == 0)
+		new_node->next = tmp;
+	else
 	{
-		newnode->next = *head;
-		*head = newnode;
-		return (newnode);
+		tmp_old = tmp->next;
+		tmp->next = new_node;
+		new_node->next = tmp_old;
 	}
-	/* usea de auxiliar */
-	headaux = *head;
-	/* if index is different to the position */
-	/* counter size keeps running and headaux moves to the next node */
-	while (headaux != NULL && size != idx - 1)
-	{
-		size++;
-		headaux = headaux->next;
-	}
-	/* if index and size are equal and non NULL */
-	if (size == idx - 1 && headaux != NULL)
-	{
-		newnode->next = headaux->next;
-		headaux->next = newnode;
-		return (newnode);
-	}
-	free(newnode);
-	return (NULL);
+	return (new_node);
+}
+
+/**
+ * create_new_node - Creates a new node
+ * @n: Value to add to new node
+ * Return: A pointer to a node
+ */
+listint_t *create_new_node(int n)
+{
+	listint_t *new_node;
+
+	new_node = malloc(sizeof(listint_t));
+	if (new_node == NULL)
+		return (NULL);
+	new_node->n = n;
+	new_node->next = NULL;
+
+	return (new_node);
 }
