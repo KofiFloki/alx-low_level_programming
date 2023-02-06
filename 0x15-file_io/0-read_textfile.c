@@ -1,11 +1,11 @@
 #include "main.h"
-
+#include "holberton.h"
 /**
  * read_textfile - read a file.
  * @filename: the file to read.
  * @letters: the number of chars to read
  * Description: read a file
- * section header: the header of this function is main.h
+ * section header: the header of this function is holberton.h
  * Return: this return the number of chars.
  */
 ssize_t read_textfile(const char *filename, size_t letters)
@@ -26,8 +26,8 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		free(buffer);
 		return (0);
 	}
-	_read = read(fd, buffer, letters)
-		if (_read == -1)
+	_read = read(fd, buffer, letters);
+	if (_read == -1)
 	{
 		free(buffer);
 		return (0);
