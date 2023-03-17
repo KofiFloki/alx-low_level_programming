@@ -1,32 +1,18 @@
 #include "lists.h"
 /**
- * get_dnodeint_at_index - show us the nth node of a DLL
+ * sum_dlistint - show us the sum of all the data (n) in a DLL
  * @head: a pointer to the head of the DLL
- * @index: index of the node to return its value (main = index 5 = 98)
- * Return: value of the node in the index or NULL if doesn't exist
+ * Return: the sum of all data of the DLL or 0 if is empty
  */
-dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
+int sum_dlistint(dlistint_t *head)
 {
-	dlistint_t *current_index;
-	unsigned int idx_runner;
+	int add_data = 0;
 
-	if (head == NULL)
-		return (NULL);
-
-	current_index = head;
-	/* copy list's content to current_index */
-	head->n = current_index->n;
-	idx_runner = 0;
-
-	while (current_index != NULL)
+	/* traverse the list and add each node value */
+	while (head != NULL)
 	{
-		/* when we get the given index (5) return its value */
-		/* otherwise keeps running through the list */
-		if (idx_runner == index)
-			return (current_index);
-		idx_runner++;
-		current_index = current_index->next;
+		add_data += head->n;
+		head = head->next;
 	}
-	/* if node at given index doesn't exist */
-	return (NULL);
+	return (add_data);
 }
