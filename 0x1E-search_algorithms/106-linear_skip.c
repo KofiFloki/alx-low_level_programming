@@ -1,7 +1,7 @@
 #include "search_algos.h"
 
 /**
- * linear_skip - This searches for an algorithm in a sorted singly
+ * linear_skip - Searches for an algorithm in a sorted singly
  *               linked list of integers using linear skip.
  * @list: A pointer to the  head of the linked list to search.
  * @value: The value to search for.
